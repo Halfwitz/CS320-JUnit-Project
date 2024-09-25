@@ -13,6 +13,8 @@
  *****************************************************************************/
 package ContactService;
 
+import Service.ContactService.Contact;
+import Service.ContactService.ContactService;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 

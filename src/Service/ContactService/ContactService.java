@@ -13,7 +13,7 @@
  *
  * Date: Due 9/22/2024
  *****************************************************************************/
-package ContactService;
+package Service.ContactService;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +82,7 @@ public class ContactService {
     // UPDATE CONTACT FIELDS
     /**
      * Updates first name of contact with given id to firstName
-     * @param id Unique identifier of the contact to delete
+     * @param id Unique identifier of the contact to update
      * @param firstName new first name (non-null, <= 10 chars)
      * @throws IllegalArgumentException if contact does not exist or firstName is invalid
      */
@@ -91,7 +91,7 @@ public class ContactService {
     }
     /**
      * Updates last name of contact with given id to lastName
-     * @param id Unique identifier of the contact to delete
+     * @param id Unique identifier of the contact to update
      * @param lastName new last name (non-null, <= 10 chars)
      * @throws IllegalArgumentException if contact does not exist or lastName is invalid
      */
@@ -100,7 +100,7 @@ public class ContactService {
     }
     /**
      * Updates phone number of contact with given id to phoneNumber
-     * @param id Unique identifier of the contact to delete
+     * @param id Unique identifier of the contact to update
      * @param phoneNumber new phone number (non-null, must be 10 chars)
      * @throws IllegalArgumentException if contact does not exist or phoneNumber is invalid
      */
@@ -109,7 +109,7 @@ public class ContactService {
     }
     /**
      * Updates address of contact with given id to address
-     * @param id Unique identifier of the contact to delete
+     * @param id Unique identifier of the contact to update
      * @param address new address (non-null, <= 30 chars)
      * @throws IllegalArgumentException if contact does not exist or address is invalid
      */

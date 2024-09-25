@@ -14,7 +14,7 @@
  *
  * Date: Due 9/22/2024
  *****************************************************************************/
-package ContactService;
+package Service.ContactService;
 
 public class Contact {
     private final String contactId;    // unique up to 10 chars
@@ -32,7 +32,7 @@ public class Contact {
      * @param address address (non-null, <= 30 chars)
      * @throws IllegalArgumentException if parameters are invalid.
      */
-    protected Contact(String id, String firstName, String lastName, String phone, String address) {
+    public Contact(String id, String firstName, String lastName, String phone, String address) {
         // check null and length requirements & throw exceptions
         if (id == null || id.length() > 10) {
             throw new IllegalArgumentException("Invalid id");
@@ -101,19 +101,19 @@ public class Contact {
         this.address = address;
     }
 
-    protected String getId() {
+    public String getId() {
         return contactId;
     }
-    protected String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
-    protected String getLastName() {
+    public String getLastName() {
         return lastName;
     }
-    protected String getPhone() {
+    public String getPhone() {
         return phone;
     }
-    protected String getAddress() {
+    public String getAddress() {
         return address;
     }
 
