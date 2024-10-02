@@ -7,12 +7,14 @@
  *
  * Description:
  * This abstract class provides common functionality to use or implement in
- * each service class.
+ * each service class. Supports storage of type T (extends entity),
+ * includes functions to add, remove, and update T objects.
  *
  * Date: Due 9/29/2024
  *****************************************************************************/
-package Service;
+package service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,24 +41,26 @@ public abstract class Service<T extends Entity> {
     }
 
     /**
-     * Adds an entity to the service storage, mapped to its id.
-     * @param entity entity to add to storage. must have a unique id (from createUniqueId();
+     * Adds an object to the service storage, mapped to its id.
+     * @param object object to add to service.
      */
-    public abstract void add(T entity);
+    protected void add(T object) {
+        entityMap.put(object.getId(), object);
+    }
 
     /**
      * Removes object of type T with given id from contacts map
-     * @param entity Entity to be removed from lsit
+     * @param object object to be removed from lsit
      * @throws IllegalArgumentException if contact does not exist
-     * @return entity that was removed
+     * @return object that was removed
      */
-    public T delete(T entity) {
-        return entityMap.remove(entity.getId());
+    public T delete(T object) {
+        return entityMap.remove(object.getId());
 
     }
     /**
-     * Removes object of type T with given id from storage map
-     * @param id identifier of object to be removed from storage map
+     * Removes object of type T with given id from service map
+     * @param id identifier of object to be removed from service map
      * @throws IllegalArgumentException if object does not exist
      * @return object of type T that was removed
      */
@@ -78,6 +82,11 @@ public abstract class Service<T extends Entity> {
         } else {
             throw new IllegalArgumentException("Object with ID [" + id + "] does not exist");
         }
+    }
+
+    // for testing, return an arraylist containing all entities in service map.
+    public ArrayList<T> getEntities() {
+        return new ArrayList<>(entityMap.values());
     }
 
 }
