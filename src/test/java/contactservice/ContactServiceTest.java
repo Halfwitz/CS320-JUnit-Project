@@ -1,6 +1,6 @@
 /******************************************************************************
  * Module Three Milestone
- * [Contact.java]
+ * [ContactServiceTest.java]
  * Author: Michael Lorenz
  * - CS320 - Software Test, Automation QA
  * - Southern New Hampshire University
@@ -10,11 +10,13 @@
  * of updating Contact fields as well as validation and exception handling.
  *
  * Date: Due 9/22/2024
+ * Modified: 9/25/2024 to support code restructure
  *****************************************************************************/
-package ContactService;
+package contactservice;
 
-import Service.ContactService.Contact;
-import Service.ContactService.ContactService;
+import service.contactservice.Contact;
+import service.contactservice.ContactService;
+import service.IdGenerator;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,32 +32,32 @@ class ContactServiceTest
     // Reset the unique id incrementer to 0 after each test
     @AfterEach
     void tearDown() {
-        ContactService.resetIdCounter();
+        IdGenerator.resetCounters();
     }
 
     //Requirement: Test adding contacts with unique IDs
     @Test
     @DisplayName("Test adding one contact works")
-    void testAddContact() {
-        contactService.addContact("Jon", "Snow", "1234567890", "The Wall");
+    void testAddOneContact() {
+        contactService.add("Jon", "Snow", "1234567890", "The Wall");
 
         // contact with id "0" should exist
-        assertNotNull(contactService.getContactById("0"));
+        assertNotNull(contactService.getEntityById("0"));
         // verify each field matches given input
-        assertEquals(contactService.getContactById("0").getFirstName(), "Jon");
-        assertEquals(contactService.getContactById("0").getLastName(), "Snow");
-        assertEquals(contactService.getContactById("0").getPhone(), "1234567890");
-        assertEquals(contactService.getContactById("0").getAddress(), "The Wall");
+        assertEquals(contactService.getEntityById("0").getFirstName(), "Jon");
+        assertEquals(contactService.getEntityById("0").getLastName(), "Snow");
+        assertEquals(contactService.getEntityById("0").getPhone(), "1234567890");
+        assertEquals(contactService.getEntityById("0").getAddress(), "The Wall");
     }
     @Test
     @DisplayName("Test adding contacts uses unique IDs")
-    void testAddContactsUseUniqueId() {
-        contactService.addContact("Jon", "Snow", "1234567890", "The Wall");
-        contactService.addContact("Bugs", "Bunny", "0000000000", "Looney Town");
+    void testAddUsesUniqueId() {
+        contactService.add("Jon", "Snow", "1234567890", "The Wall");
+        contactService.add("Bugs", "Bunny", "0000000000", "Looney Town");
 
         // Ensure both contacts exist and have unique ids
-        Contact contact1 = contactService.getContactById("0");
-        Contact contact2 = contactService.getContactById("1");
+        Contact contact1 = contactService.getEntityById("0");
+        Contact contact2 = contactService.getEntityById("1");
         assertNotNull(contact1);
         assertNotNull(contact2);
         // check both contacts' id are not equal
@@ -66,13 +68,13 @@ class ContactServiceTest
     @DisplayName("Test deleting contact by valid ID")
     @Test
     void testDeleteContactWithId() {
-        contactService.addContact("Jon", "Snow", "1234567890", "The Wall");
+        contactService.add("Jon", "Snow", "1234567890", "The Wall");
         String id = "0";
         // verify contact with id '0' exists
-        assertNotNull(contactService.getContactById(id));
+        assertNotNull(contactService.getEntityById(id));
         // delete contact by id 0 and verify no longer exists if exception is thrown
-        contactService.deleteContact(id);
-        assertThrows(IllegalArgumentException.class, () -> contactService.getContactById(id));
+        contactService.delete(id);
+        assertThrows(IllegalArgumentException.class, () -> contactService.getEntityById(id));
     }
 
     // Requirement 3: Update contact fields per contactId
@@ -86,8 +88,8 @@ class ContactServiceTest
         class ValidUpdateTests {
             // Add contact to modify before each test
             @BeforeEach
-            void addContact() {
-                contactService.addContact("Jon", "Snow", "1234567890", "The Wall");
+            void add() {
+                contactService.add("Jon", "Snow", "1234567890", "The Wall");
             }
 
             @DisplayName("Test updating firstName with 10 characters")
@@ -96,7 +98,7 @@ class ContactServiceTest
                 String id = "0";
                 contactService.updateFirstName(id, "JonTenChar");
                 // contact with id "0" should match updated first name field
-                assertEquals("JonTenChar", contactService.getContactById("0").getFirstName());
+                assertEquals("JonTenChar", contactService.getEntityById("0").getFirstName());
             }
 
             @DisplayName("Test updating lastName with 10 characters")
@@ -105,7 +107,7 @@ class ContactServiceTest
                 String id = "0";
                 contactService.updateLastName(id, "Snow10Char");
                 // contact with id "0" should have updated last name field
-                assertEquals("Snow10Char", contactService.getContactById(id).getLastName());
+                assertEquals("Snow10Char", contactService.getEntityById(id).getLastName());
             }
 
             @DisplayName("Test updating phone number with 10 characters")
@@ -114,7 +116,7 @@ class ContactServiceTest
                 String id = "0";
                 contactService.updatePhoneNumber(id, "0000000000");
                 // contact with id "0" should have updated phone number field
-                assertEquals("0000000000", contactService.getContactById(id).getPhone());
+                assertEquals("0000000000", contactService.getEntityById(id).getPhone());
             }
 
             @DisplayName("Test updating address with 30 characters")
@@ -123,7 +125,7 @@ class ContactServiceTest
                 String id = "0";
                 contactService.updateAddress(id, "123456 Some Keep In Winterfell");
                 // contact with id "0" should have updated last name field
-                assertEquals("123456 Some Keep In Winterfell", contactService.getContactById(id).getAddress());
+                assertEquals("123456 Some Keep In Winterfell", contactService.getEntityById(id).getAddress());
             }
         }
 
@@ -132,8 +134,8 @@ class ContactServiceTest
         class InvalidUpdateTests {
             // Add contact to modify before each test
             @BeforeEach
-            void addContact() {
-                contactService.addContact("Jon", "Snow", "1234567890", "The Wall");
+            void add() {
+                contactService.add("Jon", "Snow", "1234567890", "The Wall");
             }
 
             @Nested
@@ -180,12 +182,24 @@ class ContactServiceTest
                     // contact with id "0" should throw exception
                     assertThrows(IllegalArgumentException.class, () -> contactService.updateFirstName("0", "JonElevenCh"));
                 }
+                @DisplayName("Test updating firstName with 0 characters")
+                @Test
+                void testUpdateFirstNameWithEmptyName() {
+                    // contact with id "0" should throw exception
+                    assertThrows(IllegalArgumentException.class, () -> contactService.updateFirstName("0", ""));
+                }
 
                 @DisplayName("Test updating lastName with 11 characters")
                 @Test
                 void testUpdateLastNameWithInvalidName() {
                     // contact with id "0" should throw exception
                     assertThrows(IllegalArgumentException.class, () -> contactService.updateLastName("0", "SnowingLots"));
+                }
+                @DisplayName("Test updating lastName with 0 characters")
+                @Test
+                void testUpdateLastNameWithEmptyName() {
+                    // contact with id "0" should throw exception
+                    assertThrows(IllegalArgumentException.class, () -> contactService.updateLastName("0", ""));
                 }
 
                 @DisplayName("Test updating phone number with invalid 9 characters")
@@ -208,6 +222,12 @@ class ContactServiceTest
                     // contact with id "0" should throw exception
                     assertThrows(IllegalArgumentException.class, () -> contactService.updateAddress("0", "1234567 Some Keep In Winterfell"));
                 }
+                @DisplayName("Test updating address with 0 characters")
+                @Test
+                void testUpdateAddressWithEmptyAddress() {
+                    // contact with id "0" should throw exception
+                    assertThrows(IllegalArgumentException.class, () -> contactService.updateAddress("0", ""));
+                }
             }
 
             @Nested
@@ -217,7 +237,7 @@ class ContactServiceTest
                 @Test
                 void testUpdateFirstNameWithNullName() {
                     // contact with id "0" should throw exception
-                    assertThrows(IllegalArgumentException.class, () -> contactService.updateFirstName("1", null));
+                    assertThrows(IllegalArgumentException.class, () -> contactService.updateFirstName("0", null));
                 }
 
                 @DisplayName("Test updating lastName with null")
@@ -239,6 +259,38 @@ class ContactServiceTest
                 void testUpdateAddressWithNullAddress() {
                     // contact with id "0" should throw exception
                     assertThrows(IllegalArgumentException.class, () -> contactService.updateAddress("0", null));
+                }
+            }
+
+            @Nested
+            @DisplayName("Test Update Methods with Whitespace Input")
+            class InvalidUpdateTestsWithWhitespaceInput {
+                @DisplayName("Test updating firstName with white space")
+                @Test
+                void testUpdateFirstNameWithWhitespaceName() {
+                    // contact with id "0" should throw exception
+                    assertThrows(IllegalArgumentException.class, () -> contactService.updateFirstName("0", "          "));
+                }
+
+                @DisplayName("Test updating lastName with white space")
+                @Test
+                void testUpdateLastNameWithWhitespaceName() {
+                    // contact with id "0" should throw exception
+                    assertThrows(IllegalArgumentException.class, () -> contactService.updateLastName("0", "          "));
+                }
+
+                @DisplayName("Test updating phone number with white space")
+                @Test
+                void testUpdatePhoneNumberWithWhitespace() {
+                    // contact with id "0" should throw exception
+                    assertThrows(IllegalArgumentException.class, () -> contactService.updatePhoneNumber("0", "          "));
+                }
+
+                @DisplayName("Test updating address with white space")
+                @Test
+                void testUpdateAddressWithWhitespaceAddress() {
+                    // contact with id "0" should throw exception
+                    assertThrows(IllegalArgumentException.class, () -> contactService.updateAddress("0", "                              "));
                 }
             }
         }
