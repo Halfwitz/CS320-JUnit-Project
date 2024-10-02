@@ -1,16 +1,17 @@
-import Service.ContactService.ContactService;
-import Service.IdGenerator;
-import Service.TaskService.Task;
+import service.contactservice.ContactService;
+import service.IdGenerator;
+import service.taskservice.Task;
 
 public class Main
 {
-    public static void main(String[] args) throws Exception {
-        ContactService contacts = new ContactService();
-        contacts.addContact("First", "Last", "1234567890", "Home");
-        contacts.addContact("Sheldon", "Cooper", "1234567890", "Space");
+    public static void main(String[] args) {
+        /*ContactService contacts = new ContactService();
+        contacts.add("First", "Last", "1234567890", "Home");
+        contacts.add("Sheldon", "Cooper", "1234567890", "Space");
 
-        contacts.addContact("Song", "Bob", "1234567890", "Ocean");
-        contacts.deleteContact("1");
+        contacts.add("Song", "Bob", "1234567890", "Ocean");
+        contacts.delete("1");
+        //contacts.printContacts();
 
        // contacts.updatePhoneNumber("0", "12345");
         IdGenerator.printCounters();
@@ -23,7 +24,7 @@ public class Main
 
         t.updateField("name", "new name");
         System.out.println(t);
-        IdGenerator.printCounters();
+        IdGenerator.printCounters();*/
 
 
 
