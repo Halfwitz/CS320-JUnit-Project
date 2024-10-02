@@ -8,7 +8,7 @@ public class IdGenerator {
     private static final int ID_MAX_CHARS = 10;
 
     private IdGenerator() {
-    };
+    }
 
     // add new counter to track ids for entities of type entityClass
     public static String generateId(Class<? extends Entity> entityClass) {
