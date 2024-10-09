@@ -17,7 +17,7 @@ package service.appointmentservice;
 import service.Entity;
 import java.util.Date;
 
-public class Appointment extends Entity {
+public class Appointment extends BasicEntity {
     private Date appointmentDate;
     private String description;
     private final int DESC_CHAR_LIMIT = 50;

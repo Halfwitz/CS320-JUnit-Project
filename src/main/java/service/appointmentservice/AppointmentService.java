@@ -17,7 +17,7 @@ package service.appointmentservice;
 import service.Service;
 import java.util.Date;
 
-public class AppointmentService extends Service<Appointment> {
+public class AppointmentService extends BasicService<Appointment> {
 
     /**
      * Adds an appointment object mapped to its unique id in storage.
