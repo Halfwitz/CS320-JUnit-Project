@@ -204,6 +204,12 @@ class TaskServiceTest
                     assertThrows(IllegalArgumentException.class, () -> taskService.updateDescription("0", "                                                  "));
                 }
             }
+
+            @DisplayName("Test updating unknown field")
+            @Test
+            void testUpdateUnknownField() {
+                assertThrows(IllegalArgumentException.class, ()-> taskService.updateEntityField("0", "unknown", "value"));
+            }
         }
 
 

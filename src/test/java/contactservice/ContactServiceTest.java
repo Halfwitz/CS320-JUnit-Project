@@ -292,6 +292,12 @@ class ContactServiceTest
                     assertThrows(IllegalArgumentException.class, () -> contactService.updateAddress("0", "                              "));
                 }
             }
+
+            @DisplayName("Test updating unknown field")
+            @Test
+            void testUpdateUnknownField() {
+                assertThrows(IllegalArgumentException.class, ()-> contactService.updateEntityField("0", "unknown", "value"));
+            }
         }
     }
 }
