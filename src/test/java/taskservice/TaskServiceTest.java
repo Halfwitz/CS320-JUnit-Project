@@ -13,6 +13,7 @@
  *****************************************************************************/
 package taskservice;
 
+import service.taskservice.BasicIdGenerator;
 import service.taskservice.Task;
 import service.taskservice.TaskService;
 import service.IdGenerator;
@@ -31,7 +32,7 @@ class TaskServiceTest
     // Reset the unique id incrementer to 0 after each test
     @AfterEach
     void tearDown() {
-        IdGenerator.resetCounters();
+        BasicIdGenerator.resetCounters();
     }
 
     //Requirement: Test adding tasks with unique IDs

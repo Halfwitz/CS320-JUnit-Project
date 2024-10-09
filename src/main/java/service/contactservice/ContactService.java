@@ -13,11 +13,12 @@
  *
  * Date: Due 9/22/2024
  * Modified: 9/25/2024 to extend Service
+ * Modified: 10/09/2024 to remove outer package dependencies
  *****************************************************************************/
 package service.contactservice;
 import service.Service;
 
-public class ContactService extends Service<Contact>
+public class ContactService extends BasicService<Contact>
 {
 
     /**

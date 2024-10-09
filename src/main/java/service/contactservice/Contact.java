@@ -15,12 +15,11 @@
  *
  * Date: Due 9/22/2024
  * Modified: 9/29/2024 to extend Entity
+ * Modified: 10/09/2024 to remove outer package dependencies
  *****************************************************************************/
 package service.contactservice;
 
-import service.Entity;
-
-public class Contact extends Entity
+public class Contact extends BasicEntity
 {
     private String firstName;   // required, up to 10 chars
     private String lastName;    // required, up to 10 chars

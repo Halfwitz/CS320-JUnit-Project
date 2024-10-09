@@ -15,8 +15,9 @@
 package contactservice;
 
 import org.junit.jupiter.api.*;
+import service.appointmentservice.Appointment;
 import service.contactservice.Contact;
-import service.IdGenerator;
+import service.contactservice.BasicIdGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +26,7 @@ class ContactTest
     // Reset the unique id incrementer to 0 after each test
     @AfterEach
     void tearDown() {
-        IdGenerator.resetCounters();
+        BasicIdGenerator.resetCounters();
     }
 
     // Test creating a contact object
@@ -49,7 +50,8 @@ class ContactTest
         @Test
         void testContactId10Chars() {
             Contact contact = new Contact("John", "Marston", "7034224806", "Phoenix, Arizona");
-            IdGenerator.setCounter(contact.getClass(), 9999999990L);
+            BasicIdGenerator.setCounter(contact.getClass(), 9999999990L);
+            // create contact test and check that it contains the 10 char id
             Contact test = new Contact("John", "Marston", "1002003000", "Phoenix, Arizona");
             Assertions.assertEquals("9999999990", test.getId());
         }
@@ -58,7 +60,7 @@ class ContactTest
         @Test
         void testContactIdTooLong() {
             Contact contact = new Contact("John", "Marston", "7034224806", "Phoenix, Arizona");
-            IdGenerator.setCounter(contact.getClass(), 9999999999L); //next contact will have this id
+            BasicIdGenerator.setCounter(contact.getClass(), 9999999999L); //next contact will have this id
             new Contact("John", "Marston", "1002003000", "Phoenix, Arizona"); // next contact will overflow
             Assertions.assertThrows(IllegalArgumentException.class, () -> {
                 new Contact("John", "Marston", "1002003000", "Phoenix, Arizona");

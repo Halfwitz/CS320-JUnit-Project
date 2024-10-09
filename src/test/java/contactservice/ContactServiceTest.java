@@ -14,6 +14,7 @@
  *****************************************************************************/
 package contactservice;
 
+import service.contactservice.BasicIdGenerator;
 import service.contactservice.Contact;
 import service.contactservice.ContactService;
 import service.IdGenerator;
@@ -32,7 +33,7 @@ class ContactServiceTest
     // Reset the unique id incrementer to 0 after each test
     @AfterEach
     void tearDown() {
-        IdGenerator.resetCounters();
+        BasicIdGenerator.resetCounters();
     }
 
     //Requirement: Test adding contacts with unique IDs

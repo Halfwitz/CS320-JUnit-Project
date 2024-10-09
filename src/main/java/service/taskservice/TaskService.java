@@ -12,11 +12,12 @@
  * - update task fields per task ID (Name, Description)
  *
  * Date: Due 9/29/2024
+ * Modified: 10/09/2024 to remove outer package dependencies
  *****************************************************************************/
 package service.taskservice;
 import service.Service;
 
-public class TaskService extends Service<Task> {
+public class TaskService extends BasicService<Task> {
     /**
      * Adds a task object mapped to its unique id in storage.
      * @param name - Name of task

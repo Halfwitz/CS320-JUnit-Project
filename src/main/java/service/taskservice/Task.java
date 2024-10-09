@@ -11,12 +11,11 @@
  * - name must be non-null, and <= 20 characters
  * - description must be non-null and <= 50 characters
  * Date: Due 9/29/2024
+ * Modified: 10/09/2024 to remove outer package dependencies
  *****************************************************************************/
 package service.taskservice;
 
-import service.Entity;
-
-public class Task extends Entity
+public class Task extends BasicEntity
 {
     private String name, description;
     private final int NAME_CHAR_LIMIT = 20;
