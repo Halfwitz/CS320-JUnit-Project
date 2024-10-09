@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import service.taskservice.BasicIdGenerator;
 import service.taskservice.Task;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class TaskTest
 {
     // Reset the unique id incrementer to 0 after each test
@@ -59,6 +57,7 @@ class TaskTest
         @DisplayName("Test when task ID is 11 characters, should throw exception")
         @Test
         void testTaskIdTooLong() {
+            // initialize id counter
             Task task = new Task("do the dishes", "rinse your plates and dry your cups");
             // set value of next id, should throw exception in construction
             BasicIdGenerator.setCounter(task.getClass(), 99999999999L);
