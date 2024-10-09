@@ -49,6 +49,7 @@ public class Contact extends BasicEntity
         this.address = verifyNonNullWithinChars(address, 1, ADDRESS_CHAR_LIMIT);
     }
 
+    // SET CONTACT FIELDS
     /**
      * Updates firstName
      * @param firstName new first name (non-null, <= 10 chars)
@@ -99,6 +100,7 @@ public class Contact extends BasicEntity
         }
     }
 
+    // GETTERS
     public String getFirstName() {
         return firstName;
     }
@@ -111,8 +113,4 @@ public class Contact extends BasicEntity
     public String getAddress() {
         return address;
     }
-
-    /*public String toString() {
-        return "[id:"+getId()+"];"+"[name:" + firstName + " " + lastName + "];[number:" + phone + "];[address:" + address + "];";
-    }*/
 }

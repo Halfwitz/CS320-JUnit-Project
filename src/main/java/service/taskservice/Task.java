@@ -21,14 +21,27 @@ public class Task extends BasicEntity
     private final int NAME_CHAR_LIMIT = 20;
     private final int DESC_CHAR_LIMIT = 50;
 
+    /**
+     * Initializes a new Task object
+     * @param name task name (non-null, <= 20 chars)
+     * @param description task description (non-null, <= 50 chars)
+     * @throws IllegalArgumentException if parameters are invalid.
+     */
     public Task(String name, String description) {
         super();
         this.name = verifyNonNullWithinChars(name, 1, NAME_CHAR_LIMIT);
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
     }
 
+    // SET TASK FIELDS
+    /**
+     * Sets specified field name to new specified value. Allowed field names are
+     * "name", and "description".
+     * @param fieldName field name to modify.
+     * @throws IllegalArgumentException if parameter value is invalid
+     */
     @Override
-    public void updateField(String fieldName, String value) {
+    protected void updateField(String fieldName, String value) {
         switch (fieldName.toLowerCase()) {
             case "name" -> setTaskName(value);
             case "description" -> setTaskDescription(value);
@@ -36,23 +49,31 @@ public class Task extends BasicEntity
         }
     }
 
+    /**
+     * Updates task name
+     * @param taskName new name (non-null, <= 20 chars)
+     * @throws IllegalArgumentException if parameter is invalid
+     */
     private void setTaskName(String taskName) {
         this.name = verifyNonNullWithinChars(taskName, 1, NAME_CHAR_LIMIT);
     }
 
+    /**
+     * Updates task description
+     * @param description new task description (non-null, <= 50 chars)
+     * @throws IllegalArgumentException if parameter is invalid
+     */
     private void setTaskDescription(String description) {
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
     }
 
+    // GETTERS
     public String getName() {
         return name;
     }
+
     public String getDescription() {
         return description;
     }
 
-    /*public String toString() {
-        return "[id:"+getId()+"];"+"[name:" + getName() + "];[description:" + getDescription() + "]";
-
-    }*/
 }
