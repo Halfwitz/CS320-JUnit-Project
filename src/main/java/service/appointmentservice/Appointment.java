@@ -28,6 +28,29 @@ public class Appointment extends BasicEntity {
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
     }
 
+    /**
+     * Construct's an Appointment object
+     * @param date - date of the appointment, can't be null or before minDate
+     * @param description - description of the appointment (non-null and <= 50 chars)
+     * @param minDate - minimum date initially allowed
+     * @throws IllegalArgumentException if date is before minDate or parameters are invalid
+     */
+    public Appointment(Date date, String description, Date minDate) {
+        super();
+        this.appointmentDate = verifyDateNotBeforeOther(date, minDate);
+
+    }
+
+    /**
+     * Used publicly to update various fields depending on fieldName
+     * @param fieldName the name of the field to update.
+     *                  <p>case "date" -> updates appointmentDate. Value should be string representation of a
+     *                                  Date object's time. (String.valueOf(Date object.getTime()))  non-null.</p>
+     *                  <p>case "description" -> updates description field to specified value field.
+     *                                            Value Should be non-null and <= 50 chars.</p>
+     * @param value the new value to set for the specified field.
+     * @throws IllegalArgumentException if fieldName does not match expected strings
+     */
     @Override
     public void updateField(String fieldName, String value) {
         switch (fieldName.toLowerCase()) {
