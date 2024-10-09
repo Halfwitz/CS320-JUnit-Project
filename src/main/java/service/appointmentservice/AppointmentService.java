@@ -53,7 +53,20 @@ public class AppointmentService extends BasicService<Appointment> {
      * @param id Unique identifier of the appointment to update
      * @throws IllegalArgumentException if appointment does not exist or date is invalid
      */
-    /*public void updateDescription(String id, String description) {
+    public Date updateDate(String id) {
+        Date current = new Date();
+        // sets date to current system time and specifies it can't be before this time
+        getEntityById(id).setAppointmentDate(current, current);
+        return current; // returns current (helpful in testing)
+    }
+
+    /**
+     * Updates name of appointment with given id to firstName
+     * @param id Unique identifier of the appointment to update
+     * @param description new appointment description (non-null, <= 50 chars)
+     * @throws IllegalArgumentException if appointment does not exist or date is invalid
+     */
+    public void updateDescription(String id, String description) {
         getEntityById(id).updateField("description", description);
     } */
 
