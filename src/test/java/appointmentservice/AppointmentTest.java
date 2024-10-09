@@ -13,11 +13,12 @@
  ****************************************************************/
 package appointmentservice;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.*;
 import service.appointmentservice.BasicIdGenerator;
 import service.appointmentservice.Appointment;
 import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class AppointmentTest
 {
@@ -57,7 +58,7 @@ class AppointmentTest
             BasicIdGenerator.setCounter(appointment.getClass(), 9999999999L);
             // create appointment using above id and check that it contains that specified id.
             Appointment test = new Appointment(date, "description");
-            assertEquals(test.getId(), "9999999999");
+            assertEquals("9999999999", test.getId());
         }
 
         @DisplayName("Test when appointment ID is 11 characters, should throw exception")
@@ -75,7 +76,7 @@ class AppointmentTest
         void testAppointmentIdIsNotNull() {
             // id physically cannot be set to null
             Appointment appointment = new Appointment(date, "description");
-            Assertions.assertNotEquals(appointment.getId(), null);
+            Assertions.assertNotEquals(null, appointment.getId());
         }
 
         @DisplayName("Test if Appointment id is not updatable")
