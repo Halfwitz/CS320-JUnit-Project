@@ -13,8 +13,6 @@
  * Date: Due 10/06/2024
  *****************************************************************************/
 package service.appointmentservice;
-
-import service.Entity;
 import java.util.Date;
 
 public class Appointment extends BasicEntity {
