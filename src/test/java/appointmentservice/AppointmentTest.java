@@ -112,6 +112,15 @@ class AppointmentTest
                     new Appointment(date, "have a meeting"));
         }
 
+        @DisplayName("Test when appointment is set to current system time, should not throw exception")
+        @Test
+        void testAppointmentDateCurrent() {
+            Appointment app = new Appointment("have a meeting"); // sets to current date
+
+            // verifies date exists and is within 5ms of current system time--accounts for difference in time between statement
+            assertTrue(Math.abs(app.getDate().getTime() - new Date().getTime()) <= 5);
+        }
+
         @DisplayName("Test when appointment date is null, should throw exception")
         @Test
         void testAppointmentDateIsNull() {
