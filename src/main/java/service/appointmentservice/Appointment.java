@@ -1,5 +1,5 @@
 /******************************************************************************
- * Module Five Milestone
+ * <h1>Module Five Milestone</h1>
  * [Appointment.java]
  * Author: Michael Lorenz
  * - CS320 - Software Test, Automation QA
@@ -60,22 +60,46 @@ public class Appointment extends BasicEntity {
         }
     }
 
+    /**
+     * Set's an appointment date to the new date. Verifies that date is not before the current system time.
+     * @param date new date to set
+     * @throws IllegalArgumentException if date is invalid or comes before current system time
+     */
     private void setAppointmentDate(Date date) {
-        this.appointmentDate = verifyDateNotInPast(date);
+        appointmentDate = verifyDateNotInPast(date);
     }
 
     /**
-     * Verify the given date is not in the past, throws exception if it is.
+     * Set's an appointment date to the new date. Verifies that date is not before a given minimum date.
+     * @param date new date to set
+     * @param minDate minimum allowed date
+     * @throws IllegalArgumentException if date is invalid or comes before minDate
+     */
+    public void setAppointmentDate(Date date, Date minDate) {
+        appointmentDate = verifyDateNotBeforeOther(date, minDate);
+    }
+
+    /**
+     * Verify the given date is not before current system time, throws exception if it is.
      * @param date The date to verify is not before current system time
      * @return the original date if no exception.
      * @throws IllegalArgumentException if date is null or before current system time.
      */
     private Date verifyDateNotInPast(Date date) {
-        Date current = new Date(); // initialze to current system time
+        return verifyDateNotBeforeOther(date, new Date());
+    }
+
+    /**
+     * Verify the given date does not come before other date, throws exception if it is.
+     * @param date The date to verify is not null or before other date
+     * @return the original date if no exception thrown
+     * @throws IllegalArgumentException if date is null or before other time.
+     */
+    private Date verifyDateNotBeforeOther(Date date, Date other) {
         if (date == null) { // edge case: throw exception if date is null
             throw new IllegalArgumentException("Illegal date. Date must not be null.");
-        } else if (date.before(current)) { // throw exception if date is before current time
-            throw new IllegalArgumentException("Illegal date-(" + date + "ms.) Date must be not be before current time-(" + current + "ms.)" );
+        } else if (date.before(other)) { // throw exception if date is before current time
+            throw new IllegalArgumentException("Illegal date-(" + date.getTime() + "ms.) Date must be not be before date-(" + other.getTime() + "ms.)" );
         }
 
         // return original date if no exceptions thrown
