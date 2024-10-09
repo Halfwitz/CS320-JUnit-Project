@@ -17,7 +17,6 @@ package contactservice;
 import service.contactservice.BasicIdGenerator;
 import service.contactservice.Contact;
 import service.contactservice.ContactService;
-import service.IdGenerator;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -175,8 +174,7 @@ class ContactServiceTest
 
             @Nested
             @DisplayName("Test Update Methods with Invalid Character Lengths")
-            class InvalidUpdateTestsWithInvalidLengths
-            {
+            class InvalidUpdateTestsWithInvalidLengths {
                 @DisplayName("Test updating firstName with 11 characters")
                 @Test
                 void testUpdateFirstNameWithInvalidName() {
@@ -295,7 +293,5 @@ class ContactServiceTest
                 }
             }
         }
-
-
     }
 }
