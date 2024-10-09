@@ -26,17 +26,11 @@ public class Appointment extends BasicEntity {
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
     }
 
-    /**
-     * Construct's an Appointment object
-     * @param date - date of the appointment, can't be null or before minDate
-     * @param description - description of the appointment (non-null and <= 50 chars)
-     * @param minDate - minimum date initially allowed
-     * @throws IllegalArgumentException if date is before minDate or parameters are invalid
-     */
-    public Appointment(Date date, String description, Date minDate) {
+    // create Appointment for current system time with description
+    public Appointment(String description) {
         super();
-        this.appointmentDate = verifyDateNotBeforeOther(date, minDate);
-
+        setAppointmentDate(); // sets date to current time
+        this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
     }
 
     /**
@@ -53,6 +47,7 @@ public class Appointment extends BasicEntity {
     public void updateField(String fieldName, String value) {
         switch (fieldName.toLowerCase()) {
             case "date" -> setAppointmentDate(new Date(Long.parseLong(value)));
+            case "date-now" -> setAppointmentDate();
             case "description" -> setAppointmentDescription(value);
             default -> throw new IllegalArgumentException("Unknown field name");
         }
@@ -68,13 +63,12 @@ public class Appointment extends BasicEntity {
     }
 
     /**
-     * Set's an appointment date to the new date. Verifies that date is not before a given minimum date.
-     * @param date new date to set
-     * @param minDate minimum allowed date
+     * Set's an appointment date to the current system time. Verifies that date is not before current date.
      * @throws IllegalArgumentException if date is invalid or comes before minDate
      */
-    public void setAppointmentDate(Date date, Date minDate) {
-        appointmentDate = verifyDateNotBeforeOther(date, minDate);
+    public void setAppointmentDate() {
+        Date current = new Date();
+        appointmentDate = verifyDateNotBeforeOther(current, current);
     }
 
     /**
@@ -115,10 +109,4 @@ public class Appointment extends BasicEntity {
     public String getDescription() {
         return description;
     }
-
-    /*public String toString() {
-        return "[id:"+getId()+"];"+"[name:" + getName() + "];[description:" + getDescription() + "]";
-
-    }*/
-
 }
