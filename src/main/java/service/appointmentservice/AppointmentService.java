@@ -68,7 +68,7 @@ public class AppointmentService extends BasicService<Appointment> {
      */
     public void updateDescription(String id, String description) {
         getEntityById(id).updateField("description", description);
-    } */
+    }
 
 
 }
