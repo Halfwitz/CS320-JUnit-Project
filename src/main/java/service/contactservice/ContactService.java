@@ -42,7 +42,7 @@ public class ContactService extends BasicService<Contact>
      * @throws IllegalArgumentException if contact does not exist or firstName is invalid
      */
     public void updateFirstName(String id, String firstName) {
-        getEntityById(id).updateField("firstname", firstName);
+        updateEntityField(id, "firstName", firstName);
     }
     /**
      * Updates last name of contact with given id to lastName
@@ -51,7 +51,7 @@ public class ContactService extends BasicService<Contact>
      * @throws IllegalArgumentException if contact does not exist or lastName is invalid
      */
     public void updateLastName(String id, String lastName) {
-        getEntityById(id).updateField("lastName", lastName);
+        updateEntityField(id, "lastName", lastName);
     }
     /**
      * Updates phone number of contact with given id to phoneNumber
@@ -60,7 +60,7 @@ public class ContactService extends BasicService<Contact>
      * @throws IllegalArgumentException if contact does not exist or phoneNumber is invalid
      */
     public void updatePhoneNumber(String id, String phoneNumber) {
-        getEntityById(id).updateField("phone", phoneNumber);
+        updateEntityField(id, "phone", phoneNumber);
     }
     /**
      * Updates address of contact with given id to address
@@ -69,7 +69,8 @@ public class ContactService extends BasicService<Contact>
      * @throws IllegalArgumentException if contact does not exist or address is invalid
      */
     public void updateAddress(String id, String address) {
-        getEntityById(id).updateField("address", address);
+        updateEntityField(id, "address", address);
+
     }
 
     /*public void printContacts() {

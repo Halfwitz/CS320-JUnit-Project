@@ -37,7 +37,7 @@ public class TaskService extends BasicService<Task> {
      * @throws IllegalArgumentException if task does not exist or firstName is invalid
      */
     public void updateName(String id, String name) {
-        getEntityById(id).updateField("name", name);
+        updateEntityField(id, "name", name);
     }
 
     /**
@@ -47,7 +47,7 @@ public class TaskService extends BasicService<Task> {
      * @throws IllegalArgumentException if task does not exist or firstName is invalid
      */
     public void updateDescription(String id, String description) {
-        getEntityById(id).updateField("description", description);
+        updateEntityField(id, "description", description);
     }
 
     /*public void printTasks() {
