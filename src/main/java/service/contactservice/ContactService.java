@@ -16,7 +16,6 @@
  * Modified: 10/09/2024 to remove outer package dependencies
  *****************************************************************************/
 package service.contactservice;
-import service.Service;
 
 public class ContactService extends BasicService<Contact>
 {
@@ -73,9 +72,4 @@ public class ContactService extends BasicService<Contact>
 
     }
 
-    /*public void printContacts() {
-        for (Contact contact : getEntities()) {
-            System.out.println(contact);
-        }
-    }*/
 }
