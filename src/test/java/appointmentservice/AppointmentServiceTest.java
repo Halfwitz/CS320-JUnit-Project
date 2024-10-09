@@ -52,6 +52,16 @@ class AppointmentServiceTest
         assertEquals(appointmentService.getEntityById("0").getDescription(), "have a meeting");
     }
     @Test
+    @DisplayName("Test adding one appointment set to current time works and retrievable from service")
+    void testAddOneAppointmentWithCurrentTime() {
+        appointmentService.add("have a meeting"); // uses current time without date (checked in other tests)
+
+        // appointment with id "0" should exist
+        assertNotNull(appointmentService.getEntityById("0"));
+        // verify each field matches given input
+        assertEquals(appointmentService.getEntityById("0").getDescription(), "have a meeting");
+    }
+    @Test
     @DisplayName("Test adding multiple appointments work and all are retrievable from service")
     void testAddMultipleAppointment() {
         appointmentService.add(date, "have a meeting");
@@ -133,10 +143,9 @@ class AppointmentServiceTest
         @Nested
         @DisplayName("Test Update Methods with Valid Input")
         class ValidUpdateTests {
-            @DisplayName("Test updating date with current time")
+            @DisplayName("Test updating date with current time, should not throw exception")
             @Test
             void testUpdateDateWithCurrentTime() {
-
                 Date current = appointmentService.updateDate("0"); // update date with current date for id = 0
                 // verifies date is within 5ms of current system time--accounts for difference in time between statement
                 assertTrue(Math.abs(current.getTime() - new Date().getTime()) <= 5);
@@ -255,6 +264,12 @@ class AppointmentServiceTest
                     // appointment with id "0" should throw exception
                     assertThrows(IllegalArgumentException.class, () -> appointmentService.updateDescription("0", " this has leading whitespace"));
                 }
+            }
+
+            @DisplayName("Test updating unknown field")
+            @Test
+            void testUpdateUnknownField() {
+                assertThrows(IllegalArgumentException.class, ()-> appointmentService.updateEntityField("0", "unknown", "value"));
             }
         }
     }
