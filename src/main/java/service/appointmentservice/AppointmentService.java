@@ -40,8 +40,12 @@ public class AppointmentService extends BasicService<Appointment> {
      *             to current time.
      * @throws IllegalArgumentException if appointment does not exist or date is invalid.
      */
-    /*public void updateName(String id, String name) {
-        getEntityById(id).updateField("name", name);
+    public void updateDate(String id, Date date) {
+        if (date == null) {
+            getEntityById(id).updateField("date", null);
+        } else {
+            getEntityById(id).updateField("date", String.valueOf(date.getTime()));
+        }
     }
 
     /**
