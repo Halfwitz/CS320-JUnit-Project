@@ -46,12 +46,10 @@ public class BasicIdGenerator
         counters.put(counterClass, value);
     }
 
-    // print all counters
-    public static void printCounters() {
+    // print all counters (Excluded unless needed for debug)
+    /*public static void printCounters() {
         for (Map.Entry<Class<? extends BasicEntity>, Long> mapElement : counters.entrySet()) {
             System.out.println(mapElement.getKey() + ":" + mapElement.getValue());
-
         }
-
-    }
+    }*/
 }

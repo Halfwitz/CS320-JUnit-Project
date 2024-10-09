@@ -73,18 +73,13 @@ public abstract class BasicService<T extends BasicEntity> {
      * @throws IllegalArgumentException if object does not exist or field string is invalid
      */
     public void updateEntityField(String id, String fieldName, String value) {
-        T entity = entityMap.get(id);
-
-        if (entity != null) {
-            entity.updateField(fieldName, value);
-        } else {
-            throw new IllegalArgumentException("Object with ID [" + id + "] does not exist");
-        }
+        T entity = getEntityById(id); // throws exception if entity not found
+        entity.updateField(fieldName, value); // throws exception if fieldname or value invalid
     }
 
     // for testing, return an arraylist containing all entities in service map.
-    public ArrayList<T> getEntities() {
+    /*public ArrayList<T> getEntities() {
         return new ArrayList<>(entityMap.values());
-    }
+    }*/
 
 }

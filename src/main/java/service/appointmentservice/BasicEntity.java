@@ -51,16 +51,16 @@ public abstract class BasicEntity
         return str;
     }
 
-    /**
+    /** UNNECESSARY unless string to be verified can be 0 chars
      * Verifies and returns a string if it is a valid format, throws an exception if it isn't
      * @param str string to verify
      * @param maxCharNum maximum allowed number of characters (inclusive)
      * @return the original str string
      * @throws IllegalArgumentException if str is null, has leading/trailing whitespace, or too many chars.
      */
-    protected String verifyNonNullWithinChars(String str, int maxCharNum) {
+    /*protected String verifyNonNullWithinChars(String str, int maxCharNum) {
         return verifyNonNullWithinChars(str, 0, maxCharNum);
-    }
+    }*/
 
     /**
      * Updates a specific field of the object with the provided value.
