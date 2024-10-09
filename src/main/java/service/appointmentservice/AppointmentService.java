@@ -29,6 +29,17 @@ public class AppointmentService extends BasicService<Appointment> {
         add(appointment); // super method. Adds to entityMap HashMap using unique ID
     }
 
+    /**
+     * Adds an appointment object mapped to its unique id in storage.
+     * appointment date is set to the current system time
+     * @param description - Description of the appointment (Must be non-null, no more than 50 characters)
+     * @throws IllegalArgumentException in Appointment object if parameters are invalid format
+     */
+    public void add(String description) {
+        Appointment appointment = new Appointment(description); // create object with specified parameters
+        add(appointment); // super method. Adds to entityMap HashMap using unique ID
+    }
+
     // super class contains method for delete appointments per ID
 
     // UPDATE APPOINTMENT FIELDS
