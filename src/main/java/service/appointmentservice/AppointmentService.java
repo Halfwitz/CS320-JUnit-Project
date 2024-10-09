@@ -31,7 +31,7 @@ public class AppointmentService extends BasicService<Appointment> {
 
     // super class contains method for delete appointments per ID
 
-    /* UPDATE APPOINTMENT FIELDS ***Disabled for now due to ambiguity in requirements
+    // UPDATE APPOINTMENT FIELDS
     /**
      * Updates date of appointment with given id to given future date (Date class)
      * @param id Unique identifier of the appointment to update
