@@ -67,9 +67,9 @@ class TaskTest
             });
         }
 
-        @DisplayName("Test when task ID is null, should throw exception")
+        @DisplayName("Test to ensure task ID is not null")
         @Test
-        void testTaskIdIsNull() {
+        void testTaskIdIsNotNull() {
             // id physically cannot be set to null
             Task task = new Task("do the dishes", "rinse your plates and dry your cups");
             Assertions.assertNotEquals(task.getId(), null);

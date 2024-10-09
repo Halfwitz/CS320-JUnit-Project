@@ -56,6 +56,14 @@ class ContactTest
             Assertions.assertEquals("9999999990", test.getId());
         }
 
+        @DisplayName("Test that appointment ID is not null")
+        @Test
+        void testAppointmentIdIsNotNull() {
+            // id physically cannot be set to null
+            Contact test = new Contact("John", "Marston", "1002003000", "Phoenix, Arizona");
+            Assertions.assertNotEquals(null, test.getId());
+        }
+
         @DisplayName("Test when contact ID is 11 characters, should throw exception")
         @Test
         void testContactIdTooLong() {
@@ -65,18 +73,6 @@ class ContactTest
             Assertions.assertThrows(IllegalArgumentException.class, () -> {
                 new Contact("John", "Marston", "1002003000", "Phoenix, Arizona");
             });
-        }
-
-        @DisplayName("Test when contact ID is null, should throw exception")
-        @Test
-        void testContactIdIsNull() {
-            // id physically cannot be set to null, no way to set or change ID
-            Contact contact = new Contact( "John", "Marston", "7034224806", "Phoenix, Arizona");
-            Assertions.assertNotEquals(contact.getId(), null);
-            //Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            //IdGenerator.setCounter(contact.getClass(), null);
-            //new Contact("John", "Marston", "1002003000", "Phoenix, Arizona");
-            //});
         }
 
         @DisplayName("Test if Contact id is not updatable")
