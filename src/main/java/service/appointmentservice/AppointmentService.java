@@ -52,10 +52,10 @@ public class AppointmentService extends BasicService<Appointment> {
      * @throws IllegalArgumentException if appointment does not exist or date is invalid.
      */
     public void updateDate(String id, Date date) {
-        if (date == null) {
-            getEntityById(id).updateField("date", null);
+        if (date == null) { // to avoid NullPointerException
+            updateEntityField(id, "date", null); // purposefully throws IllegalArgumentException
         } else {
-            getEntityById(id).updateField("date", String.valueOf(date.getTime()));
+            updateEntityField(id, "date", String.valueOf(date.getTime()));
         }
     }
 
@@ -67,7 +67,7 @@ public class AppointmentService extends BasicService<Appointment> {
     public Date updateDate(String id) {
         Date current = new Date();
         // sets date to current system time and specifies it can't be before this time
-        getEntityById(id).setAppointmentDate(current, current);
+        updateEntityField(id, "date-now", null);
         return current; // returns current (helpful in testing)
     }
 
@@ -78,7 +78,7 @@ public class AppointmentService extends BasicService<Appointment> {
      * @throws IllegalArgumentException if appointment does not exist or date is invalid
      */
     public void updateDescription(String id, String description) {
-        getEntityById(id).updateField("description", description);
+        updateEntityField(id, "description", description);
     }
 
 
