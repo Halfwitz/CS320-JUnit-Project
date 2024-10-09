@@ -4,7 +4,6 @@
  * Author: Michael Lorenz
  * - CS320 - Software Test, Automation QA
  * - Southern New Hampshire University
- *
  * Description:
  * This class represents a task object with fields for task name, and description.
  * Parent class gives this a unique id when initialized. It enforces constraints:
