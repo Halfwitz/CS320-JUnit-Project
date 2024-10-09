@@ -16,7 +16,6 @@ package taskservice;
 import service.taskservice.BasicIdGenerator;
 import service.taskservice.Task;
 import service.taskservice.TaskService;
-import service.IdGenerator;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -211,7 +210,5 @@ class TaskServiceTest
                 assertThrows(IllegalArgumentException.class, ()-> taskService.updateEntityField("0", "unknown", "value"));
             }
         }
-
-
     }
 }
