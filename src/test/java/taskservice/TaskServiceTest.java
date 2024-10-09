@@ -95,7 +95,7 @@ class TaskServiceTest
             void testUpdateNameWithValidName() {
                 String id = "0";
                 taskService.updateName(id, "this task is 20 char");
-                // task with id "0" should match updated first name field
+                // task with id "0" should match updated name field
                 assertEquals("this task is 20 char", taskService.getEntityById("0").getName());
             }
 
@@ -104,7 +104,7 @@ class TaskServiceTest
             void testUpdateDescriptionWithValidName() {
                 String id = "0";
                 taskService.updateDescription(id, "this is an example of a 50 character description..");
-                // task with id "0" should have updated last name field
+                // task with id "0" should have updated description field
                 assertEquals("this is an example of a 50 character description..",
                         taskService.getEntityById(id).getDescription());
             }
@@ -179,7 +179,7 @@ class TaskServiceTest
 
                 @DisplayName("Test updating description with null")
                 @Test
-                void testUpdateDescriptionWithNullName() {
+                void testUpdateDescriptionWithNullDescription() {
                     // task with id "0" should throw exception
                     assertThrows(IllegalArgumentException.class, () -> taskService.updateDescription("0", null));
                 }
