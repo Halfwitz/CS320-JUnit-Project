@@ -14,11 +14,28 @@
  * Date: Due 9/22/2024
  * Modified: 9/25/2024 to extend Service
  * Modified: 10/09/2024 to remove outer package dependencies
+ * Modified: 10/11/2024 to merge with superclass
  *****************************************************************************/
 package service.contactservice;
 
-public class ContactService extends BasicService<Contact>
-{
+import java.util.HashMap;
+import java.util.Map;
+
+public class ContactService {
+
+    /**
+     * Container for set of entities, maps entity id to entity object.
+     * (Use entity extensions (Task, Contact, Appointment))
+     */
+    private final Map<String, Contact> entityMap = new HashMap<>();
+
+    /**
+     * Adds an object to the service storage, mapped to its id.
+     * @param object object to add to service.
+     */
+    protected void add(Contact object) {
+        entityMap.put(object.getId(), object);
+    }
 
     /**
      * Adds a contact object mapped to its unique id storage.
@@ -33,7 +50,39 @@ public class ContactService extends BasicService<Contact>
         add(entity);
     }
 
+    /**
+     * Removes object with given id from contacts map
+     * @param object object to be removed from lsit
+     * @throws IllegalArgumentException if contact does not exist
+     * @return object that was removed
+     */
+    public Contact delete(Contact object) {
+        return entityMap.remove(object.getId());
+    }
+
+    /**
+     * Removes object with given id from contacts map
+     * @param id identifier of object to be removed from contacts map
+     * @throws IllegalArgumentException if object does not exist
+     * @return object that was removed
+     */
+    public Contact delete(String id) {
+        return delete(getEntityById(id));
+    }
+
     // UPDATE CONTACT FIELDS
+    /**
+     * Update specified string field implemented in updatedField method implemented from Entity
+     * @param id Unique identifier of the object to delete
+     * @param fieldName the field that is being modified (must be firstName, lastName, phone, address)
+     * @param value new value to change specified field to
+     * @throws IllegalArgumentException if object does not exist or field string is invalid
+     */
+    public void updateEntityField(String id, String fieldName, String value) {
+        Contact entity = getEntityById(id); // throws exception if entity not found
+        entity.updateField(fieldName, value); // throws exception if fieldname or value invalid
+    }
+
     /**
      * Updates first name of contact with given id to firstName
      * @param id Unique identifier of the contact to update
@@ -43,6 +92,7 @@ public class ContactService extends BasicService<Contact>
     public void updateFirstName(String id, String firstName) {
         updateEntityField(id, "firstName", firstName);
     }
+
     /**
      * Updates last name of contact with given id to lastName
      * @param id Unique identifier of the contact to update
@@ -72,4 +122,17 @@ public class ContactService extends BasicService<Contact>
 
     }
 
+    /**
+     * Return an entity of type T from the stored map
+     * @param id the unique id used to identity entity in map
+     * @return entity of type T associated with given id key from map
+     * @throws IllegalArgumentException if entity with specified id can't be found
+     */
+    public Contact getEntityById(String id) {
+        Contact entity = entityMap.get(id);
+        if (entity == null) {
+            throw new IllegalArgumentException("Object with ID [" + id + "] does not exist");
+        }
+        return entity;
+    }
 }
