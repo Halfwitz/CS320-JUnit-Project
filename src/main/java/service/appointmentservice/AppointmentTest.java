@@ -11,7 +11,7 @@
  *
  * Data: Due 9/29/2024
  ****************************************************************/
-package appointmentservice;
+package service.appointmentservice;
 
 import org.junit.jupiter.api.*;
 import service.appointmentservice.BasicIdGenerator;

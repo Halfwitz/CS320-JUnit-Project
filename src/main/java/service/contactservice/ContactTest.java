@@ -12,7 +12,7 @@
  * Data: Due 9/22/2024
  * Modified: 9/25/2024 to support code restructures. added tests.
  ****************************************************************/
-package contactservice;
+package service.contactservice;
 
 import org.junit.jupiter.api.*;
 import service.appointmentservice.Appointment;

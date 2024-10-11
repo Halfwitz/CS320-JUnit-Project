@@ -12,7 +12,7 @@
  * Date: Due 9/29/2024
  * Modified: 10/9/2024 - remove outer package dependencies
  ****************************************************************/
-package taskservice;
+package service.taskservice;
 
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;

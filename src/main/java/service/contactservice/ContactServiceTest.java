@@ -12,7 +12,7 @@
  * Date: Due 9/22/2024
  * Modified: 9/25/2024 to support code restructure
  *****************************************************************************/
-package contactservice;
+package service.contactservice;
 
 import service.contactservice.BasicIdGenerator;
 import service.contactservice.Contact;

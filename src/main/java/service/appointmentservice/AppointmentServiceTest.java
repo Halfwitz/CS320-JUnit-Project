@@ -11,7 +11,7 @@
  *
  * Date: Due 9/29/2024
  *****************************************************************************/
-package appointmentservice;
+package service.appointmentservice;
 
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
