@@ -14,9 +14,6 @@
  *****************************************************************************/
 package service.contactservice;
 
-import service.contactservice.BasicIdGenerator;
-import service.contactservice.Contact;
-import service.contactservice.ContactService;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +29,7 @@ class ContactServiceTest
     // Reset the unique id incrementer to 0 after each test
     @AfterEach
     void tearDown() {
-        BasicIdGenerator.resetCounters();
+        Contact.resetCounter();
     }
 
     //Requirement: Test adding contacts with unique IDs

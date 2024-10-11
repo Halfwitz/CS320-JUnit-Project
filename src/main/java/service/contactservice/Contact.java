@@ -22,6 +22,7 @@ package service.contactservice;
 
 public class Contact {
     private final String id;
+    private static long idCounter = 0;
     private String firstName;   // required, up to 10 chars
     private String lastName;    // required, up to 10 chars
     private String phone;       // required, up to 10 digits
@@ -43,11 +44,29 @@ public class Contact {
      */
     public Contact(String firstName, String lastName, String phone, String address) {
         // initialize with unique id, check null and length requirements & throw exceptions
-        this.id = verifyNonNullWithinChars(BasicIdGenerator.generateId(this.getClass()), 1, ID_CHAR_LIMIT);
+        this.id = verifyNonNullWithinChars(generateId(), 1, ID_CHAR_LIMIT);
         this.firstName = verifyNonNullWithinChars(firstName, 1, NAME_CHAR_LIMIT);
         this.lastName = verifyNonNullWithinChars(lastName, 1, NAME_CHAR_LIMIT);
         this.phone = verifyNonNullWithinChars(phone, PHONE_CHAR_LIMIT, PHONE_CHAR_LIMIT);
         this.address = verifyNonNullWithinChars(address, 1, ADDRESS_CHAR_LIMIT);
+    }
+
+    // Generate a unique ID:
+    public static String generateId() {
+        long nextId = idCounter;
+        String id = String.valueOf(idCounter);
+        idCounter++;
+        return id;
+    }
+
+    // reset id counter - for testing only
+    public static void resetCounter() {
+        setCounter(0L);
+    }
+
+    // modify specific counter - meant for testing only
+    public static void setCounter(Long value) {
+        idCounter = value;
     }
 
     /**
