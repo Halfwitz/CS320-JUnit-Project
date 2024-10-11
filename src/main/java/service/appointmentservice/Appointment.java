@@ -15,42 +15,27 @@
 package service.appointmentservice;
 import java.util.Date;
 
-public class Appointment extends BasicEntity {
+public class Appointment {
+    private final String id;
     private Date appointmentDate;
     private String description;
+    private final int ID_CHAR_LIMIT = 10;
     private final int DESC_CHAR_LIMIT = 50;
 
+    // create Appointment with unique id and verify all parameters
     public Appointment(Date date, String description) {
-        super();
+        this.id = verifyNonNullWithinChars(BasicIdGenerator.generateId(this.getClass()), 1, ID_CHAR_LIMIT);
+
         this.appointmentDate = verifyDateNotInPast(date);
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
     }
 
-    // create Appointment for current system time with description
+    // create Appointment for current system time with description and verify all parameters
     public Appointment(String description) {
-        super();
-        setAppointmentDate(); // sets date to current time
+        this.id = verifyNonNullWithinChars(BasicIdGenerator.generateId(this.getClass()), 1, ID_CHAR_LIMIT);
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
-    }
+        setAppointmentDate(); // sets date to current time
 
-    /**
-     * Used publicly to update various fields depending on fieldName
-     * @param fieldName the name of the field to update.
-     *                  <p>case "date" -> updates appointmentDate. Value should be string representation of a
-     *                                  Date object's time. (String.valueOf(Date object.getTime()))  non-null.</p>
-     *                  <p>case "description" -> updates description field to specified value field.
-     *                                            Value Should be non-null and <= 50 chars.</p>
-     * @param value the new value to set for the specified field.
-     * @throws IllegalArgumentException if fieldName does not match expected strings
-     */
-    @Override
-    public void updateField(String fieldName, String value) {
-        switch (fieldName.toLowerCase()) {
-            case "date" -> setAppointmentDate(new Date(Long.parseLong(value)));
-            case "date-now" -> setAppointmentDate();
-            case "description" -> setAppointmentDescription(value);
-            default -> throw new IllegalArgumentException("Unknown field name");
-        }
     }
 
     /**
@@ -66,9 +51,32 @@ public class Appointment extends BasicEntity {
      * Set's an appointment date to the current system time. Verifies that date is not before current date.
      * @throws IllegalArgumentException if date is invalid or comes before minDate
      */
-    public void setAppointmentDate() {
+    private void setAppointmentDate() {
         Date current = new Date();
         appointmentDate = verifyDateNotBeforeOther(current, current);
+    }
+
+    private void setAppointmentDescription(String description) {
+        this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
+    }
+
+    /**
+     * Used publicly to update various fields depending on fieldName
+     * @param fieldName the name of the field to update.
+     *                  <p>case "date" -> updates appointmentDate. Value should be string representation of a
+     *                                  Date object's time. (String.valueOf(Date object.getTime()))  non-null.</p>
+     *                  <p>case "description" -> updates description field to specified value field.
+     *                                            Value Should be non-null and <= 50 chars.</p>
+     * @param value the new value to set for the specified field.
+     * @throws IllegalArgumentException if fieldName does not match expected strings
+     */
+    public void updateField(String fieldName, String value) {
+        switch (fieldName.toLowerCase()) {
+            case "date" -> setAppointmentDate(new Date(Long.parseLong(value)));
+            case "date-now" -> setAppointmentDate();
+            case "description" -> setAppointmentDescription(value);
+            default -> throw new IllegalArgumentException("Unknown field name");
+        }
     }
 
     /**
@@ -98,15 +106,44 @@ public class Appointment extends BasicEntity {
         return date;
     }
 
-    private void setAppointmentDescription(String description) {
-        this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
+    /**
+     * Verifies and returns a string if it is a valid format, throws an exception if it isn't
+     * @param str string to verify
+     * @param minCharNum minimum allowed number of characters (inclusive)
+     * @param maxCharNum maximum allowed number of characters (inclusive)
+     * @return the original str string
+     * @throws IllegalArgumentException if str is null, contains leading or trailing whitespace, or not within
+     * allowed number of chars (inclusive)
+     */
+    protected String verifyNonNullWithinChars(String str, int minCharNum, int maxCharNum) {
+        // CHECK EDGE CASES
+        if (str == null) {
+            throw new IllegalArgumentException("Invalid string, must be non-null value.");
+        }
+        // no leading/trailing whitespace
+        String trueStr = str.strip();
+        // if str and str.strip() lengths are different, contains invalid leading/trailing characters
+        if (str.length() != str.strip().length()) { // (strip() removes leading/trailing whitespace
+            throw new IllegalArgumentException("Invalid string, be sure to remove leading or trailing spaces.");
+        }
+        // if str has too little or too many characters, throw exception
+        if (trueStr.length() > maxCharNum || trueStr.length() < minCharNum) {
+            throw new IllegalArgumentException("Invalid string, " + str + ", must be within" + minCharNum + "-" + maxCharNum + " characters.");
+        }
+        // Return data if no exceptions thrown
+        return str;
     }
 
+    // GETTERS
     public Date getDate() {
         return appointmentDate;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public String getId() {
+        return id;
     }
 }
