@@ -16,9 +16,6 @@ package service.appointmentservice;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import service.appointmentservice.Appointment;
-import service.appointmentservice.BasicIdGenerator;
-import service.appointmentservice.AppointmentService;
 import java.util.Date;
 
 
@@ -36,7 +33,7 @@ class AppointmentServiceTest
     // Reset the unique id incrementer to 0 after each test
     @AfterEach
     void tearDown() {
-        BasicIdGenerator.resetCounters();
+        Appointment.resetCounter();
     }
 
     //Requirement 1: Test adding appointments with unique IDs

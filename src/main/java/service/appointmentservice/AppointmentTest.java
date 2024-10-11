@@ -14,8 +14,6 @@
 package service.appointmentservice;
 
 import org.junit.jupiter.api.*;
-import service.appointmentservice.BasicIdGenerator;
-import service.appointmentservice.Appointment;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +29,7 @@ class AppointmentTest
 
     @AfterEach
     void tearDown() {
-        BasicIdGenerator.resetCounters(); // Reset the unique id incrementer to 0 after each test
+        Appointment.resetCounter(); // Reset the unique id incrementer to 0 after each test
     }
 
     // Test creating an appointment object
@@ -55,7 +53,7 @@ class AppointmentTest
             // create an appointment to initialize the id counter
             Appointment appointment = new Appointment(date, "have a meeting");
             // set the current idCounter to a 10 character long, next created object will use this id
-            BasicIdGenerator.setCounter(appointment.getClass(), 9999999999L);
+            Appointment.setCounter(9999999999L);
             // create appointment using above id and check that it contains that specified id.
             Appointment test = new Appointment(date, "description");
             assertEquals("9999999999", test.getId());
@@ -67,7 +65,7 @@ class AppointmentTest
             // initialize the id counter to 0
             Appointment appointment = new Appointment(date, "have a meeting");
             // set id counter to 11 character long, next created object should throw exception
-            BasicIdGenerator.setCounter(appointment.getClass(), 99999999999L);
+            Appointment.setCounter(99999999999L);
             Assertions.assertThrows(IllegalArgumentException.class, () -> new Appointment(date, "description"));
         }
 

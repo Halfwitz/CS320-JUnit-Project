@@ -17,25 +17,44 @@ import java.util.Date;
 
 public class Appointment {
     private final String id;
+    private static Long idCounter = 0L;
     private Date appointmentDate;
     private String description;
+
     private final int ID_CHAR_LIMIT = 10;
     private final int DESC_CHAR_LIMIT = 50;
 
     // create Appointment with unique id and verify all parameters
     public Appointment(Date date, String description) {
-        this.id = verifyNonNullWithinChars(BasicIdGenerator.generateId(this.getClass()), 1, ID_CHAR_LIMIT);
-
+        this.id = verifyNonNullWithinChars(generateId(), 1, ID_CHAR_LIMIT);
         this.appointmentDate = verifyDateNotInPast(date);
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
     }
 
     // create Appointment for current system time with description and verify all parameters
     public Appointment(String description) {
-        this.id = verifyNonNullWithinChars(BasicIdGenerator.generateId(this.getClass()), 1, ID_CHAR_LIMIT);
+        this.id = verifyNonNullWithinChars(generateId(), 1, ID_CHAR_LIMIT);
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
         setAppointmentDate(); // sets date to current time
 
+    }
+
+    // Generate a unique ID:
+    private static String generateId() {
+        long nextId = idCounter;
+        String id = String.valueOf(idCounter);
+        idCounter++;
+        return id;
+    }
+
+    // reset id counter - for testing only
+    public static void resetCounter() {
+        setCounter(0L);
+    }
+
+    // modify specific counter - meant for testing only
+    public static void setCounter(Long value) {
+        idCounter = value;
     }
 
     /**
