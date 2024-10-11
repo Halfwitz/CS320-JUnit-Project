@@ -11,12 +11,16 @@
  * - description must be non-null and <= 50 characters
  * Date: Due 9/29/2024
  * Modified: 10/09/2024 to remove outer package dependencies
+ * Modified: 10/11/2024 to merge with superclass
  *****************************************************************************/
 package service.taskservice;
 
-public class Task extends BasicEntity
-{
+public class Task {
+    private final String id;
     private String name, description;
+
+    // maximum allowed character length of fields
+    private final int ID_CHAR_LIMIT = 10;
     private final int NAME_CHAR_LIMIT = 20;
     private final int DESC_CHAR_LIMIT = 50;
 
@@ -27,9 +31,37 @@ public class Task extends BasicEntity
      * @throws IllegalArgumentException if parameters are invalid.
      */
     public Task(String name, String description) {
-        super();
+        this.id = verifyNonNullWithinChars(BasicIdGenerator.generateId(this.getClass()), 1, ID_CHAR_LIMIT);
         this.name = verifyNonNullWithinChars(name, 1, NAME_CHAR_LIMIT);
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
+    }
+
+    /**
+     * Verifies and returns a string if it is a valid format, throws an exception if it isn't
+     * @param str string to verify
+     * @param minCharNum minimum allowed number of characters (inclusive)
+     * @param maxCharNum maximum allowed number of characters (inclusive)
+     * @return the original str string
+     * @throws IllegalArgumentException if str is null, contains leading or trailing whitespace, or not within
+     * allowed number of chars (inclusive)
+     */
+    protected String verifyNonNullWithinChars(String str, int minCharNum, int maxCharNum) {
+        // CHECK EDGE CASES
+        if (str == null) {
+            throw new IllegalArgumentException("Invalid string, must be non-null value.");
+        }
+        // no leading/trailing whitespace
+        String trueStr = str.strip();
+        // if str and str.strip() lengths are different, contains invalid leading/trailing characters
+        if (str.length() != str.strip().length()) { // (strip() removes leading/trailing whitespace
+            throw new IllegalArgumentException("Invalid string, be sure to remove leading or trailing spaces.");
+        }
+        // if str has too little or too many characters, throw exception
+        if (trueStr.length() > maxCharNum || trueStr.length() < minCharNum) {
+            throw new IllegalArgumentException("Invalid string, " + str + ", must be within" + minCharNum + "-" + maxCharNum + " characters.");
+        }
+        // Return data if no exceptions thrown
+        return str;
     }
 
     // SET TASK FIELDS
@@ -39,7 +71,6 @@ public class Task extends BasicEntity
      * @param fieldName field name to modify.
      * @throws IllegalArgumentException if parameter value is invalid
      */
-    @Override
     protected void updateField(String fieldName, String value) {
         switch (fieldName.toLowerCase()) {
             case "name" -> setTaskName(value);
@@ -75,4 +106,7 @@ public class Task extends BasicEntity
         return description;
     }
 
+    public String getId() {
+        return id;
+    }
 }
