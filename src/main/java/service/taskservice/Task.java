@@ -17,6 +17,7 @@ package service.taskservice;
 
 public class Task {
     private final String id;
+    private static long idCounter = 0;
     private String name, description;
 
     // maximum allowed character length of fields
@@ -31,9 +32,27 @@ public class Task {
      * @throws IllegalArgumentException if parameters are invalid.
      */
     public Task(String name, String description) {
-        this.id = verifyNonNullWithinChars(BasicIdGenerator.generateId(this.getClass()), 1, ID_CHAR_LIMIT);
+        this.id = verifyNonNullWithinChars(generateId(), 1, ID_CHAR_LIMIT);
         this.name = verifyNonNullWithinChars(name, 1, NAME_CHAR_LIMIT);
         this.description = verifyNonNullWithinChars(description, 1, DESC_CHAR_LIMIT);
+    }
+
+    // Generate a unique ID:
+    public static String generateId() {
+        long nextId = idCounter;
+        String id = String.valueOf(idCounter);
+        idCounter++;
+        return id;
+    }
+
+    // reset id counter - for testing only
+    public static void resetCounter() {
+        setCounter(0L);
+    }
+
+    // modify specific counter - meant for testing only
+    public static void setCounter(Long value) {
+        idCounter = value;
     }
 
     /**

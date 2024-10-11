@@ -13,9 +13,6 @@
  *****************************************************************************/
 package service.taskservice;
 
-import service.taskservice.BasicIdGenerator;
-import service.taskservice.Task;
-import service.taskservice.TaskService;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +28,7 @@ class TaskServiceTest
     // Reset the unique id incrementer to 0 after each test
     @AfterEach
     void tearDown() {
-        BasicIdGenerator.resetCounters();
+        Task.resetCounter();
     }
 
     //Requirement: Test adding tasks with unique IDs

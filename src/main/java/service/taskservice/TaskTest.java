@@ -17,15 +17,12 @@ package service.taskservice;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import service.taskservice.BasicIdGenerator;
-import service.taskservice.Task;
-
 class TaskTest
 {
     // Reset the unique id incrementer to 0 after each test
     @AfterEach
     void tearDown() {
-        BasicIdGenerator.resetCounters();
+        Task.resetCounter();
     }
 
     // Test creating a task object
@@ -47,7 +44,7 @@ class TaskTest
         @Test
         void testTaskId10Chars() {
             Task task = new Task("do the dishes", "rinse your plates and dry your cups");
-            BasicIdGenerator.setCounter(task.getClass(), 9999999999L);
+            Task.setCounter(9999999999L);
             Task test = new Task("my id is 10 chars", "description");
             Assertions.assertThrows(IllegalArgumentException.class, () -> {
                 new Task("do the dishes", "rinse your plates and dry your cups");
@@ -58,9 +55,9 @@ class TaskTest
         @Test
         void testTaskIdTooLong() {
             // initialize id counter
-            Task task = new Task("do the dishes", "rinse your plates and dry your cups");
+            new Task("do the dishes", "rinse your plates and dry your cups");
             // set value of next id, should throw exception in construction
-            BasicIdGenerator.setCounter(task.getClass(), 99999999999L);
+            Task.setCounter(99999999999L);
             Assertions.assertThrows(IllegalArgumentException.class, () -> {
                 new Task("do the dishes", "rinse your plates and dry your cups");
             });
