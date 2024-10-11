@@ -16,17 +16,19 @@
  * Date: Due 9/22/2024
  * Modified: 9/29/2024 to extend Entity
  * Modified: 10/09/2024 to remove outer package dependencies
+ * Modified: 10/11/2024 to merge with superclass
  *****************************************************************************/
 package service.contactservice;
 
-public class Contact extends BasicEntity
-{
+public class Contact {
+    private final String id;
     private String firstName;   // required, up to 10 chars
     private String lastName;    // required, up to 10 chars
     private String phone;       // required, up to 10 digits
     private String address;     // required, up to 30 chars
 
     // maximum allowed number of characters for each field
+    private final int ID_CHAR_LIMIT = 10;
     private final int NAME_CHAR_LIMIT = 10;
     private final int PHONE_CHAR_LIMIT = 10;
     private final int ADDRESS_CHAR_LIMIT = 30;
@@ -40,18 +42,45 @@ public class Contact extends BasicEntity
      * @throws IllegalArgumentException if parameters are invalid.
      */
     public Contact(String firstName, String lastName, String phone, String address) {
-        // initialize with unique id
-        super();
-        // check null and length requirements & throw exceptions
+        // initialize with unique id, check null and length requirements & throw exceptions
+        this.id = verifyNonNullWithinChars(BasicIdGenerator.generateId(this.getClass()), 1, ID_CHAR_LIMIT);
         this.firstName = verifyNonNullWithinChars(firstName, 1, NAME_CHAR_LIMIT);
         this.lastName = verifyNonNullWithinChars(lastName, 1, NAME_CHAR_LIMIT);
         this.phone = verifyNonNullWithinChars(phone, PHONE_CHAR_LIMIT, PHONE_CHAR_LIMIT);
         this.address = verifyNonNullWithinChars(address, 1, ADDRESS_CHAR_LIMIT);
     }
 
+    /**
+     * Verifies and returns a string if it is a valid format, throws an exception if it isn't
+     * @param str string to verify
+     * @param minCharNum minimum allowed number of characters (inclusive)
+     * @param maxCharNum maximum allowed number of characters (inclusive)
+     * @return the original str string
+     * @throws IllegalArgumentException if str is null, contains leading or trailing whitespace, or not within
+     * allowed number of chars (inclusive)
+     */
+    protected String verifyNonNullWithinChars(String str, int minCharNum, int maxCharNum) {
+        // CHECK EDGE CASES
+        if (str == null) {
+            throw new IllegalArgumentException("Invalid string, must be non-null value.");
+        }
+        // no leading/trailing whitespace
+        String trueStr = str.strip();
+        // if str and str.strip() lengths are different, contains invalid leading/trailing characters
+        if (str.length() != str.strip().length()) { // (strip() removes leading/trailing whitespace
+            throw new IllegalArgumentException("Invalid string, be sure to remove leading or trailing spaces.");
+        }
+        // if str has too little or too many characters, throw exception
+        if (trueStr.length() > maxCharNum || trueStr.length() < minCharNum) {
+            throw new IllegalArgumentException("Invalid string, " + str + ", must be within" + minCharNum + "-" + maxCharNum + " characters.");
+        }
+        // Return data if no exceptions thrown
+        return str;
+    }
+
     // SET CONTACT FIELDS
     /**
-     * Updates firstName
+     * Updates firstName if provided is valid
      * @param firstName new first name (non-null, <= 10 chars)
      * @throws IllegalArgumentException if parameter is invalid
      */
@@ -59,7 +88,7 @@ public class Contact extends BasicEntity
         this.firstName = verifyNonNullWithinChars(firstName, 1, NAME_CHAR_LIMIT);
     }
     /**
-     * Updates lastName
+     * Updates lastName if provided is valid
      * @param lastName new first name (non-null, <= 10 chars)
      * @throws IllegalArgumentException if parameter is invalid
      */
@@ -67,7 +96,7 @@ public class Contact extends BasicEntity
         this.lastName = verifyNonNullWithinChars(lastName, 1, NAME_CHAR_LIMIT);
     }
     /**
-     * Updates phone
+     * Updates phone if provided is valid
      * @param phoneNumber new phone number (non-null, exactly 10 chars)
      * @throws IllegalArgumentException if parameter is invalid
      */
@@ -75,7 +104,7 @@ public class Contact extends BasicEntity
         this.phone = verifyNonNullWithinChars(phoneNumber, PHONE_CHAR_LIMIT, PHONE_CHAR_LIMIT);
     }
     /**
-     * Updates address
+     * Updates address if provided is valid
      * @param address new address (non-null, <= 30 chars)
      * @throws IllegalArgumentException if parameter is invalid
      */
@@ -89,7 +118,6 @@ public class Contact extends BasicEntity
      * @param fieldName field to modify.
      * @throws IllegalArgumentException if parameter value is invalid
      */
-    @Override
     protected void updateField(String fieldName, String value) {
         switch (fieldName.toLowerCase()) {
             case "firstname" -> setFirstName(value);
@@ -101,6 +129,9 @@ public class Contact extends BasicEntity
     }
 
     // GETTERS
+    public String getId() {
+        return id;
+    }
     public String getFirstName() {
         return firstName;
     }
