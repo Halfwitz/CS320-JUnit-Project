@@ -1,7 +1,3 @@
-import service.contactservice.ContactService;
-import service.IdGenerator;
-import service.taskservice.Task;
-
 public class Main
 {
     public static void main(String[] args) {
