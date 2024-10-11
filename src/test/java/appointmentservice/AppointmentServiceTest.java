@@ -46,10 +46,10 @@ class AppointmentServiceTest
         appointmentService.add(date, "have a meeting");
 
         // appointment with id "0" should exist
-        assertNotNull(appointmentService.getEntityById("0"));
+        assertNotNull(appointmentService.getAppointmentById("0"));
         // verify each field matches given input
-        assertEquals(appointmentService.getEntityById("0").getDate(), date);
-        assertEquals(appointmentService.getEntityById("0").getDescription(), "have a meeting");
+        assertEquals(appointmentService.getAppointmentById("0").getDate(), date);
+        assertEquals(appointmentService.getAppointmentById("0").getDescription(), "have a meeting");
     }
     @Test
     @DisplayName("Test adding one appointment set to current time works and retrievable from service")
@@ -57,9 +57,9 @@ class AppointmentServiceTest
         appointmentService.add("have a meeting"); // uses current time without date (checked in other tests)
 
         // appointment with id "0" should exist
-        assertNotNull(appointmentService.getEntityById("0"));
+        assertNotNull(appointmentService.getAppointmentById("0"));
         // verify each field matches given input
-        assertEquals(appointmentService.getEntityById("0").getDescription(), "have a meeting");
+        assertEquals(appointmentService.getAppointmentById("0").getDescription(), "have a meeting");
     }
     @Test
     @DisplayName("Test adding multiple appointments work and all are retrievable from service")
@@ -71,16 +71,16 @@ class AppointmentServiceTest
         appointmentService.add(date, "all the meetings");
 
         // each appointment should exist and contain specific description
-        assertNotNull(appointmentService.getEntityById("0"));
-        assertEquals(appointmentService.getEntityById("0").getDescription(), "have a meeting");
-        assertNotNull(appointmentService.getEntityById("1"));
-        assertEquals(appointmentService.getEntityById("1").getDescription(), "another meeting");
-        assertNotNull(appointmentService.getEntityById("2"));
-        assertEquals(appointmentService.getEntityById("2").getDescription(), "another...");
-        assertNotNull(appointmentService.getEntityById("3"));
-        assertEquals(appointmentService.getEntityById("3").getDescription(), "too many meeting");
-        assertNotNull(appointmentService.getEntityById("4"));
-        assertEquals(appointmentService.getEntityById("4").getDescription(), "all the meetings");
+        assertNotNull(appointmentService.getAppointmentById("0"));
+        assertEquals(appointmentService.getAppointmentById("0").getDescription(), "have a meeting");
+        assertNotNull(appointmentService.getAppointmentById("1"));
+        assertEquals(appointmentService.getAppointmentById("1").getDescription(), "another meeting");
+        assertNotNull(appointmentService.getAppointmentById("2"));
+        assertEquals(appointmentService.getAppointmentById("2").getDescription(), "another...");
+        assertNotNull(appointmentService.getAppointmentById("3"));
+        assertEquals(appointmentService.getAppointmentById("3").getDescription(), "too many meeting");
+        assertNotNull(appointmentService.getAppointmentById("4"));
+        assertEquals(appointmentService.getAppointmentById("4").getDescription(), "all the meetings");
     }
 
     @Test
@@ -90,8 +90,8 @@ class AppointmentServiceTest
         appointmentService.add(date, "meet with fred");
 
         // Ensure both appointments exist and have unique ids
-        Appointment appointment1 = appointmentService.getEntityById("0");
-        Appointment appointment2 = appointmentService.getEntityById("1");
+        Appointment appointment1 = appointmentService.getAppointmentById("0");
+        Appointment appointment2 = appointmentService.getAppointmentById("1");
         assertNotNull(appointment1);
         assertNotNull(appointment2);
         // check both appointments' id are not equal
@@ -105,10 +105,10 @@ class AppointmentServiceTest
         appointmentService.add(date, "have a meeting");
         String id = "0";
         // verify appointment with id '0' exists
-        assertNotNull(appointmentService.getEntityById(id));
+        assertNotNull(appointmentService.getAppointmentById(id));
         // delete appointment by id 0 and verify no longer exists if exception is thrown
         appointmentService.delete(id);
-        assertThrows(IllegalArgumentException.class, () -> appointmentService.getEntityById(id));
+        assertThrows(IllegalArgumentException.class, () -> appointmentService.getAppointmentById(id));
     }
 
     @DisplayName("Test deleting an appointment does not alter other appointments")
@@ -118,15 +118,15 @@ class AppointmentServiceTest
         appointmentService.add(date, "have a meeting"); // id = 1
 
         // verify both appointments exist
-        assertNotNull(appointmentService.getEntityById("0"));
-        assertNotNull(appointmentService.getEntityById("1"));
+        assertNotNull(appointmentService.getAppointmentById("0"));
+        assertNotNull(appointmentService.getAppointmentById("1"));
 
         // delete appointment by id 0 and verify no longer exists if exception is thrown
         appointmentService.delete("0");
-        assertThrows(IllegalArgumentException.class, () -> appointmentService.getEntityById("0"));
+        assertThrows(IllegalArgumentException.class, () -> appointmentService.getAppointmentById("0"));
 
         // verify other appointment still exists
-        assertNotNull(appointmentService.getEntityById("1"));
+        assertNotNull(appointmentService.getAppointmentById("1"));
     }
 
     // Requirement 3: Update appointment fields per appointmentId
@@ -150,7 +150,7 @@ class AppointmentServiceTest
                 // verifies date is within 5ms of current system time--accounts for difference in time between statement
                 assertTrue(Math.abs(current.getTime() - new Date().getTime()) <= 5);
                 // time for appointment with id"0" should match updated date field
-                assertEquals(current, appointmentService.getEntityById("0").getDate());
+                assertEquals(current, appointmentService.getAppointmentById("0").getDate());
             }
             @DisplayName("Test updating date with 1ms future time")
             @Test
@@ -158,7 +158,7 @@ class AppointmentServiceTest
                 Date future = new Date(new Date().getTime() + 1);
                 appointmentService.updateDate("0", future); // update date with current date for id = 0
                 // time for appointment with id"0" should match updated date field
-                assertEquals(future, appointmentService.getEntityById("0").getDate());
+                assertEquals(future, appointmentService.getAppointmentById("0").getDate());
             }
 
             @DisplayName("Test updating description with 50 characters")
@@ -168,7 +168,7 @@ class AppointmentServiceTest
                 appointmentService.updateDescription(id, "this is an example of a 50 character description..");
                 // appointment with id "0" should have updated last name field
                 assertEquals("this is an example of a 50 character description..",
-                        appointmentService.getEntityById(id).getDescription());
+                        appointmentService.getAppointmentById(id).getDescription());
             }
         }
 
@@ -269,7 +269,7 @@ class AppointmentServiceTest
             @DisplayName("Test updating unknown field")
             @Test
             void testUpdateUnknownField() {
-                assertThrows(IllegalArgumentException.class, ()-> appointmentService.updateEntityField("0", "unknown", "value"));
+                assertThrows(IllegalArgumentException.class, ()-> appointmentService.updateAppointmentField("0", "unknown", "value"));
             }
         }
     }
