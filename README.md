@@ -1,4 +1,4 @@
-# CS320-Project-One: Service Management and JUnit Testing Project
+# CS320-JUnit-Project: Service Management and JUnit Testing Project
 ## OVERVIEW
 This repository provides code created to create a management system for handling Contact, Task, and Appointment entities using respective service classes.
 The project focuses on building a fully unit-tested codebase using JUnit 5 to build and emphasize best software testing and QA practices and ensure adherence to specified requirements.
